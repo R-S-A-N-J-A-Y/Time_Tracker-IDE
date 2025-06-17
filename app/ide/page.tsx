@@ -16,7 +16,8 @@ export default function EditorPage() {
         body: JSON.stringify({ code, input, language }),
       });
       const data = await res.json();
-      setOutput(data.output || data.error);
+      setOutput(data.stdout || data.stderr || data.compile_output);
+      console.log(data);
     } catch (err) {
       console.log(err);
       setOutput("Something went wrong!");

@@ -1,7 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 
+const LanguageId: Record<string, number> = {
+  python: 71,
+  cpp: 76,
+  java: 62,
+  javaScript: 63,
+};
+
 export const POST = async (req: NextRequest) => {
   const { language, code, input } = await req.json();
+  console.log(language, LanguageId[language]);
 
   if (!code)
     return NextResponse.json(
@@ -15,10 +23,38 @@ export const POST = async (req: NextRequest) => {
       { status: 400 }
     );
 
-  const result = `Language: ${language}\nInput: ${input}\nCode: ${code.substring(
-    0,
-    30
-  )}...`;
+  try {
+    const res = await fetch(
+      `https://${process.env.JUDGE0_API_HOST}/submissions?base64_encoded=false&wait=true`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-RapidAPI-Host": process.env.JUDGE0_API_HOST!,
+          "X-RapidAPI-Key": process.env.JUDGE0_API_KEY!,
+        },
+        body: JSON.stringify({
+          source_code: code,
+          stdin: input,
+          language_id: LanguageId[language],
+        }),
+      }
+    );
 
-  return NextResponse.json({ output: result }, { status: 200 });
+    const data = await res.json();
+    return NextResponse.json({
+      stdout: data.stdout,
+      stderr: data.stderr,
+      compile_output: data.compile_output,
+      time: data.time,
+      memory: data.memory,
+    });
+  } catch (err) {
+    console.log(err);
+
+    return NextResponse.json(
+      { error: "Error calling the Code Runner..." },
+      { status: 500 }
+    );
+  }
 };
