@@ -1,6 +1,7 @@
 "use client";
 import { Editor } from "@monaco-editor/react";
-import { useState } from "react";
+import debounce from "lodash/debounce";
+import { useCallback, useState } from "react";
 
 export default function EditorPage() {
   return (
@@ -89,8 +90,12 @@ const EditorWrapper = () => {
   const [language, setLanguage] = useState<string>("python");
   const [code, setCode] = useState("");
 
+  const debouncedOnchange = debounce((value: string | undefined) => {
+    if (value) setCode(value);
+  }, 800);
+
   const HandleOnChange = (data: string | undefined) => {
-    if (data) setCode(data);
+    debouncedOnchange(data);
   };
 
   return (
