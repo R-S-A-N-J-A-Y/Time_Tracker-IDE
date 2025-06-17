@@ -1,12 +1,31 @@
 "use client";
 import { Editor } from "@monaco-editor/react";
 import debounce from "lodash/debounce";
-import { useCallback, useState } from "react";
+import { useState } from "react";
 
 export default function EditorPage() {
+  const [language, setLanguage] = useState<string>("python");
+  const [code, setCode] = useState("");
+
+  const handleRun = () => {
+    console.log(code);
+  };
+
   return (
-    <div className="flex p-3 h-screen w-screen flex-wrap">
-      <EditorWrapper />
+    <div className="flex flex-col gap-3 p-3 h-screen w-screen flex-wrap">
+      <EditorWrapper
+        setCode={setCode}
+        language={language}
+        setLanguage={setLanguage}
+      />
+      <div>
+        <button
+          className="bg-blue-600 cursor-pointer px-7 py-2 text-xl text-white rounded-lg"
+          onClick={handleRun}
+        >
+          Run
+        </button>
+      </div>
     </div>
   );
 }
@@ -86,10 +105,13 @@ const LanguageDropdown = ({ language, setLanguage }: LanguageDropdownProps) => {
   );
 };
 
-const EditorWrapper = () => {
-  const [language, setLanguage] = useState<string>("python");
-  const [code, setCode] = useState("");
+interface Props {
+  setCode: (data: string) => void;
+  language: string;
+  setLanguage: (data: string) => void;
+}
 
+const EditorWrapper = ({ setCode, language, setLanguage }: Props) => {
   const debouncedOnchange = debounce((value: string | undefined) => {
     if (value) setCode(value);
   }, 800);
