@@ -13,11 +13,17 @@ export default function EditorPage() {
 
   return (
     <div className="flex flex-col gap-3 p-3 h-screen w-screen flex-wrap">
-      <EditorWrapper
-        setCode={setCode}
-        language={language}
-        setLanguage={setLanguage}
-      />
+      <section className="flex gap-3 flex-1">
+        <EditorWrapper
+          setCode={setCode}
+          language={language}
+          setLanguage={setLanguage}
+        />
+        <section className="flex flex-col gap-4 flex-1">
+          <InputSection />
+          <OutputSection />
+        </section>
+      </section>
       <div>
         <button
           className="bg-blue-600 cursor-pointer px-7 py-2 text-xl text-white rounded-lg"
@@ -30,6 +36,7 @@ export default function EditorPage() {
   );
 }
 
+// Editor Setup
 interface LanguageDropdownProps {
   language: string;
   setLanguage: (lang: string) => void;
@@ -130,7 +137,7 @@ const EditorWrapper = ({ setCode, language, setLanguage }: Props) => {
 
   return (
     <div
-      className="flex-1 p-5 flex flex-col gap-7 border-2 rounded-xl"
+      className="flex-2 p-5 flex flex-col gap-7 border-2 rounded-xl"
       style={{ backgroundColor: "#1e1e1e" }}
     >
       <div className="flex w-full justify-end px-5">
@@ -148,6 +155,41 @@ const EditorWrapper = ({ setCode, language, setLanguage }: Props) => {
           minimap: { enabled: false },
         }}
         onChange={HandleOnChange}
+      />
+    </div>
+  );
+};
+
+// Input Field
+
+const InputSection = () => {
+  return (
+    <div
+      className="flex-1 flex flex-col rounded-xl p-5 gap-4"
+      style={{ backgroundColor: "#1e1e1e" }}
+    >
+      <h3 className="text-white text-xl font-bold">Input</h3>
+      <textarea
+        className="flex-1 p-3 text-white"
+        style={{ outline: "none", resize: "none" }}
+      />
+    </div>
+  );
+};
+
+// Output Field
+
+const OutputSection = () => {
+  return (
+    <div
+      className="flex-1 flex flex-col rounded-xl p-5 gap-4"
+      style={{ backgroundColor: "#1e1e1e" }}
+    >
+      <h3 className="text-white text-xl font-bold">Output</h3>
+      <textarea
+        className="flex-1 p-3 text-white"
+        style={{ outline: "none", resize: "none" }}
+        disabled
       />
     </div>
   );
