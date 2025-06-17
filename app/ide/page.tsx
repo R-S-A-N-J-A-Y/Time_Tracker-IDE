@@ -9,9 +9,18 @@ export default function EditorPage() {
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
 
-  const handleRun = () => {
-    console.log(code, input);
-    setOutput(code);
+  const handleRun = async () => {
+    try {
+      const res = await fetch("/api/run", {
+        method: "POST",
+        body: JSON.stringify({ code, input, language }),
+      });
+      const data = await res.json();
+      setOutput(data.output || data.error);
+    } catch (err) {
+      console.log(err);
+      setOutput("Something went wrong!");
+    }
   };
 
   return (
