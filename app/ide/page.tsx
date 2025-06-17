@@ -87,6 +87,12 @@ const LanguageDropdown = ({ language, setLanguage }: LanguageDropdownProps) => {
 
 const EditorWrapper = () => {
   const [language, setLanguage] = useState<string>("python");
+  const [code, setCode] = useState("");
+
+  const HandleOnChange = (data: string | undefined) => {
+    if (data) setCode(data);
+  };
+
   return (
     <div
       className="flex-1 p-5 flex flex-col gap-7 border-2 rounded-xl"
@@ -106,6 +112,7 @@ const EditorWrapper = () => {
           fontSize: 20,
           minimap: { enabled: false },
         }}
+        onChange={HandleOnChange}
       />
     </div>
   );
