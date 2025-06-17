@@ -4,7 +4,7 @@ const LanguageId: Record<string, number> = {
   python: 71,
   cpp: 76,
   java: 62,
-  javaScript: 63,
+  javascript: 63,
 };
 
 export const POST = async (req: NextRequest) => {
@@ -42,6 +42,7 @@ export const POST = async (req: NextRequest) => {
     );
 
     const data = await res.json();
+    console.log(data);
     return NextResponse.json({
       stdout: data.stdout,
       stderr: data.stderr,
