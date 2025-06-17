@@ -1,14 +1,17 @@
 "use client";
 import { Editor } from "@monaco-editor/react";
 import debounce from "lodash/debounce";
-import { useEffect, useMemo, useState } from "react";
+import { ChangeEvent, useEffect, useMemo, useState } from "react";
 
 export default function EditorPage() {
   const [language, setLanguage] = useState<string>("python");
   const [code, setCode] = useState("");
+  const [input, setInput] = useState("");
+  const [output, setOutput] = useState("");
 
   const handleRun = () => {
-    console.log(code);
+    console.log(code, input);
+    setOutput(code);
   };
 
   return (
@@ -20,8 +23,8 @@ export default function EditorPage() {
           setLanguage={setLanguage}
         />
         <section className="flex flex-col gap-4 flex-1">
-          <InputSection />
-          <OutputSection />
+          <InputSection setInput={setInput} />
+          <OutputSection output={output} />
         </section>
       </section>
       <div>
@@ -112,13 +115,13 @@ const LanguageDropdown = ({ language, setLanguage }: LanguageDropdownProps) => {
   );
 };
 
-interface Props {
+interface EditorProps {
   setCode: (data: string) => void;
   language: string;
   setLanguage: (data: string) => void;
 }
 
-const EditorWrapper = ({ setCode, language, setLanguage }: Props) => {
+const EditorWrapper = ({ setCode, language, setLanguage }: EditorProps) => {
   const debouncedOnchange = useMemo(
     () =>
       debounce((value: string | undefined) => {
@@ -162,7 +165,25 @@ const EditorWrapper = ({ setCode, language, setLanguage }: Props) => {
 
 // Input Field
 
-const InputSection = () => {
+interface InputProps {
+  setInput: (data: string) => void;
+}
+
+const InputSection = ({ setInput }: InputProps) => {
+  const debouncedOnchange = useMemo(
+    () =>
+      debounce((value: string | undefined) => {
+        if (value) setInput(value);
+      }, 800),
+    [setInput]
+  );
+
+  const HandleOnChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    if (e.target) {
+      debouncedOnchange(e.target.value);
+    }
+  };
+
   return (
     <div
       className="flex-1 flex flex-col rounded-xl p-5 gap-4"
@@ -172,6 +193,7 @@ const InputSection = () => {
       <textarea
         className="flex-1 p-3 text-white"
         style={{ outline: "none", resize: "none" }}
+        onChange={HandleOnChange}
       />
     </div>
   );
@@ -179,7 +201,10 @@ const InputSection = () => {
 
 // Output Field
 
-const OutputSection = () => {
+interface OutputProps {
+  output: string;
+}
+const OutputSection = ({ output }: OutputProps) => {
   return (
     <div
       className="flex-1 flex flex-col rounded-xl p-5 gap-4"
@@ -188,6 +213,7 @@ const OutputSection = () => {
       <h3 className="text-white text-xl font-bold">Output</h3>
       <textarea
         className="flex-1 p-3 text-white"
+        value={output}
         style={{ outline: "none", resize: "none" }}
         disabled
       />
