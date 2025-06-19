@@ -19,7 +19,7 @@ export const ExecutionTimeChart = ({ history }: Props) => {
   }));
 
   return (
-    <div className="bg-white rounded-xl p-4 w-full h-72">
+    <div className="bg-white rounded-xl mb-14 p-4 w-full h-72">
       <h2 className="text-xl font-bold mb-10 text-black">
         Execution Time Graph
       </h2>

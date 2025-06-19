@@ -3,11 +3,10 @@ import { EditorWrapper } from "./Editor";
 import { InputSection } from "./InputSection";
 import { Loader } from "./Loader";
 import { OutputSection } from "./OutputSection";
+import { ExecutionRecord } from "../page";
 
 interface Props {
-  setExecutionHistory: React.Dispatch<
-    React.SetStateAction<{ time: string; timestamp: string }[]>
-  >;
+  setExecutionHistory: React.Dispatch<React.SetStateAction<ExecutionRecord[]>>;
   setShowTime: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
@@ -33,6 +32,7 @@ export const EditorLayout = ({ setExecutionHistory, setShowTime }: Props) => {
       setExecutionHistory((prev) => [
         ...prev,
         {
+          language: language,
           time: data.time,
           timestamp: new Date().toLocaleTimeString(), // or Date.now()
         },
