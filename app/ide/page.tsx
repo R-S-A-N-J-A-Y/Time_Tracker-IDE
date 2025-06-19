@@ -8,6 +8,7 @@ export default function EditorPage() {
   const [code, setCode] = useState("");
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
+  const [executionTime, setExecutionTime] = useState("");
 
   const handleRun = async () => {
     try {
@@ -17,6 +18,7 @@ export default function EditorPage() {
       });
       const data = await res.json();
       setOutput(data.stdout || data.stderr || data.compile_output);
+      setExecutionTime(data.time);
       console.log(data);
     } catch (err) {
       console.log(err);
@@ -34,7 +36,7 @@ export default function EditorPage() {
         />
         <section className="flex flex-col gap-4 flex-1">
           <InputSection setInput={setInput} />
-          <OutputSection output={output} />
+          <OutputSection output={output} executionTime={executionTime} />
         </section>
       </section>
       <div>
@@ -213,8 +215,9 @@ const InputSection = ({ setInput }: InputProps) => {
 
 interface OutputProps {
   output: string;
+  executionTime: string;
 }
-const OutputSection = ({ output }: OutputProps) => {
+const OutputSection = ({ output, executionTime }: OutputProps) => {
   return (
     <div
       className="flex-1 flex flex-col rounded-xl p-5 gap-4"
@@ -227,6 +230,11 @@ const OutputSection = ({ output }: OutputProps) => {
         style={{ outline: "none", resize: "none" }}
         disabled
       />
+      {executionTime && (
+        <p className="text-white text-xl font-bold">
+          Execution Time: {executionTime}s
+        </p>
+      )}
     </div>
   );
 };
