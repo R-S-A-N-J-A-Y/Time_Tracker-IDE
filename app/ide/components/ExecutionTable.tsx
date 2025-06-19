@@ -25,10 +25,11 @@ export const ExecutionTable = ({ history }: Props) => {
   return (
     <div className="bg-white rounded-xl mb-5 p-4 w-full">
       <div className="flex items-center gap-6 mb-10">
-        <h2 className="text-xl inline font-bold text-black">
+        <h2 className="text-2xl inline font-bold text-black">
           Execution Summary
         </h2>
         <LanguageDropdown
+          name="table"
           language={filterByLanguage}
           setLanguage={setFilterByLanguage}
         />

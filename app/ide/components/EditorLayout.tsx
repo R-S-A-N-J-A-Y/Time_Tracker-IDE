@@ -46,19 +46,8 @@ export const EditorLayout = ({ setExecutionHistory, setShowTime }: Props) => {
   };
 
   return (
-    <div className="flex flex-col gap-3 p-3 min-h-screen">
-      <section className="flex gap-3 flex-1">
-        <EditorWrapper
-          setCode={setCode}
-          language={language}
-          setLanguage={setLanguage}
-        />
-        <section className="flex flex-col gap-4 flex-1">
-          <InputSection setInput={setInput} />
-          <OutputSection output={output} executionTime={executionTime} />
-        </section>
-      </section>
-      <div className="flex gap-5">
+    <div className="flex-1 flex flex-col gap-3">
+      <div className="flex justify-end gap-5">
         <button
           className="bg-linear-to-r from-sky-400 to-indigo-500 cursor-pointer px-7 py-2 text-xl text-white rounded-lg"
           onClick={handleRun}
@@ -72,6 +61,17 @@ export const EditorLayout = ({ setExecutionHistory, setShowTime }: Props) => {
           Time
         </button>
       </div>
+      <section className="flex gap-10 flex-1">
+        <EditorWrapper
+          setCode={setCode}
+          language={language}
+          setLanguage={setLanguage}
+        />
+        <section className="flex flex-col gap-4 flex-1">
+          <InputSection setInput={setInput} />
+          <OutputSection output={output} executionTime={executionTime} />
+        </section>
+      </section>
     </div>
   );
 };

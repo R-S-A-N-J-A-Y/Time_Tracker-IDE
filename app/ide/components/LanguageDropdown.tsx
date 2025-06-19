@@ -1,11 +1,13 @@
 import { useState } from "react";
 
 interface LanguageDropdownProps {
+  name?: string;
   language: string;
   setLanguage: (lang: string) => void;
 }
 
 export const LanguageDropdown = ({
+  name,
   language,
   setLanguage,
 }: LanguageDropdownProps) => {
@@ -36,15 +38,17 @@ export const LanguageDropdown = ({
       </button>
       {open && (
         <div className="absolute bg-white rounded-lg z-1 left-0 top-11 w-full p-4 flex flex-col gap-2">
-          <button
-            className="cursor-pointer w-full text-gray-900 text-start"
-            onClick={() => {
-              setLanguage("");
-              setOpen(!open);
-            }}
-          >
-            All
-          </button>
+          {name && (
+            <button
+              className="cursor-pointer w-full text-gray-900 text-start"
+              onClick={() => {
+                setLanguage("");
+                setOpen(!open);
+              }}
+            >
+              All
+            </button>
+          )}
           <button
             className="cursor-pointer w-full text-gray-900 text-start"
             onClick={() => {

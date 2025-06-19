@@ -17,7 +17,7 @@ export default function EditorPage() {
   const [showTime, setShowTime] = useState(false);
 
   return (
-    <div className="flex flex-col gap-5">
+    <div className="flex flex-col gap-5 min-h-screen px-10 py-3">
       <EditorLayout
         setExecutionHistory={setExecutionHistory}
         setShowTime={setShowTime}
