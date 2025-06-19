@@ -1,5 +1,6 @@
 "use client";
 import { EditorWrapper } from "@/components/Editor";
+import { ExecutionTimeChart } from "@/components/ExecutionTimeChart";
 import { InputSection } from "@/components/InputSection";
 import { Loader } from "@/components/Loader";
 import { OutputSection } from "@/components/OutputSection";
@@ -12,6 +13,10 @@ export default function EditorPage() {
   const [output, setOutput] = useState("");
   const [executionTime, setExecutionTime] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [executionHistory, setExecutionHistory] = useState<
+    { time: string; timestamp: string }[]
+  >([]);
+  const [showTime, setShowTime] = useState(false);
 
   const handleRun = async () => {
     setIsLoading(true);
@@ -24,6 +29,13 @@ export default function EditorPage() {
       setOutput(data.stdout || data.stderr || data.compile_output);
       setExecutionTime(data.time);
       console.log(data);
+      setExecutionHistory((prev) => [
+        ...prev,
+        {
+          time: data.time,
+          timestamp: new Date().toLocaleTimeString(), // or Date.now()
+        },
+      ]);
     } catch (err) {
       console.log(err);
       setOutput("Something went wrong!");
@@ -46,15 +58,23 @@ export default function EditorPage() {
             <OutputSection output={output} executionTime={executionTime} />
           </section>
         </section>
-        <div>
+        <div className="flex gap-5">
           <button
             className="bg-linear-to-r from-sky-400 to-indigo-500 cursor-pointer px-7 py-2 text-xl text-white rounded-lg"
             onClick={handleRun}
           >
             {!isLoading ? "Run" : <Loader />}
           </button>
+          <button
+            className="bg-gray-700 cursor-pointer px-7 py-2 text-xl text-white rounded-lg"
+            onClick={() => setShowTime(!showTime)}
+          >
+            Time
+          </button>
         </div>
       </div>
+
+      {showTime && <ExecutionTimeChart history={executionHistory} />}
     </>
   );
 }
