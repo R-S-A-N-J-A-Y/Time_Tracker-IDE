@@ -10,9 +10,9 @@ const LanguageId: Record<string, number> = {
 export const POST = async (req: NextRequest) => {
   const { language, code, input } = await req.json();
   console.log(language, LanguageId[language]);
-  // return NextResponse.json({
-  //   time: 1,
-  // });
+  return NextResponse.json({
+    time: 1,
+  });
 
   if (!code)
     return NextResponse.json(
