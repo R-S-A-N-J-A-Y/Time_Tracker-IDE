@@ -5,9 +5,14 @@ import { LanguageDropdown } from "./LanguageDropdown";
 interface Props {
   history: ExecutionRecord[];
   clearHistory: () => void;
+  ToggleShowModal: (data: ExecutionRecord | null) => void;
 }
 
-export const ExecutionTable = ({ history, clearHistory }: Props) => {
+export const ExecutionTable = ({
+  history,
+  clearHistory,
+  ToggleShowModal,
+}: Props) => {
   const [filterByLanguage, setFilterByLanguage] = useState("");
   const [filteredHistory, setFilteredHistory] = useState<ExecutionRecord[]>([]);
 
@@ -66,7 +71,10 @@ export const ExecutionTable = ({ history, clearHistory }: Props) => {
                 </td>
                 <td className="border px-4 py-2">{entry.timestamp}</td>
                 <th className="border px-4 py-2">
-                  <button className="border cursor-pointer rounded-xl px-4 py-2">
+                  <button
+                    className="border cursor-pointer rounded-xl px-4 py-2"
+                    onClick={() => ToggleShowModal(entry)}
+                  >
                     View
                   </button>
                 </th>
