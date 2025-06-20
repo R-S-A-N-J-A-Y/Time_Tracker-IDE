@@ -10,6 +10,7 @@ export type ExecutionRecord = {
   code: string;
   input: string;
   output: string;
+  isError: boolean;
   timestamp: string;
   language: string;
 };

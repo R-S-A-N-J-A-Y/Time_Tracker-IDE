@@ -63,9 +63,12 @@ export const ExecutionTable = ({
           </thead>
           <tbody>
             {filteredHistory.map((entry, idx) => (
-              <tr key={idx} className="text-center">
+              <tr
+                key={idx}
+                className={`text-center ${entry.isError ? "text-red-600" : ""}`}
+              >
                 <td className="border px-4 py-2">{idx + 1}</td>
-                <td className="border px-4 py-2">{entry.time}</td>
+                <td className="border px-4 py-2">{entry.time || "-"}</td>
                 <td className="border px-4 py-2 capitalize">
                   {entry.language}
                 </td>

@@ -35,6 +35,7 @@ export const EditorLayout = ({ setExecutionHistory, setShowTime }: Props) => {
           code: code,
           input: input,
           output: data.stdout || data.compile_output || data.stderr,
+          isError: data.stderr ? true : false,
           language: language,
           time: data.time,
           timestamp: new Date().toLocaleTimeString(), // or Date.now()
