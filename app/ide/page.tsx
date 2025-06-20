@@ -6,23 +6,29 @@ import { ExecutionTable } from "./components/ExecutionTable";
 
 export type ExecutionRecord = {
   time: string;
+  code: string;
+  input: string;
   timestamp: string;
   language: string;
 };
 
-const GetInitialHistory = () => {
-  const history = localStorage.getItem("history");
-  if (history) return JSON.parse(history);
-  return [];
-};
-
 export default function EditorPage() {
-  const [executionHistory, setExecutionHistory] =
-    useState<ExecutionRecord[]>(GetInitialHistory);
+  const [executionHistory, setExecutionHistory] = useState<ExecutionRecord[]>(
+    []
+  );
   const [showTime, setShowTime] = useState(false);
 
   useEffect(() => {
-    localStorage.setItem("history", JSON.stringify(executionHistory));
+    if (typeof window !== "undefined") {
+      const history = localStorage.getItem("history");
+      if (history) return setExecutionHistory(JSON.parse(history));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem("history", JSON.stringify(executionHistory));
+    }
   }, [executionHistory]);
 
   const clearHistory = () => {

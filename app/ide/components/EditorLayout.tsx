@@ -32,6 +32,8 @@ export const EditorLayout = ({ setExecutionHistory, setShowTime }: Props) => {
       setExecutionHistory((prev) => [
         ...prev,
         {
+          code: code,
+          input: input,
           language: language,
           time: data.time,
           timestamp: new Date().toLocaleTimeString(), // or Date.now()
