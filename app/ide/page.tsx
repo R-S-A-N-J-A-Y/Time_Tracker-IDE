@@ -16,6 +16,10 @@ export default function EditorPage() {
   );
   const [showTime, setShowTime] = useState(false);
 
+  const clearHistory = () => {
+    setExecutionHistory([]);
+  };
+
   return (
     <div className="flex flex-col gap-5 min-h-screen px-10 py-3">
       <EditorLayout
@@ -23,7 +27,12 @@ export default function EditorPage() {
         setShowTime={setShowTime}
       />
       {showTime && <ExecutionTimeChart history={executionHistory} />}
-      {showTime && <ExecutionTable history={executionHistory} />}
+      {showTime && (
+        <ExecutionTable
+          history={executionHistory}
+          clearHistory={clearHistory}
+        />
+      )}
     </div>
   );
 }

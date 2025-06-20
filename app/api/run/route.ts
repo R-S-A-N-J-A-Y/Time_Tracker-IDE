@@ -10,7 +10,9 @@ const LanguageId: Record<string, number> = {
 export const POST = async (req: NextRequest) => {
   const { language, code, input } = await req.json();
   console.log(language, LanguageId[language]);
-
+  return NextResponse.json({
+    time: 1,
+  });
   if (!code)
     return NextResponse.json(
       { stderr: "Missing the code segment..." },
@@ -54,7 +56,7 @@ export const POST = async (req: NextRequest) => {
     console.log(err);
 
     return NextResponse.json(
-      { error: "Error calling the Code Runner..." },
+      { stderr: "Error calling the Code Runner..." },
       { status: 500 }
     );
   }

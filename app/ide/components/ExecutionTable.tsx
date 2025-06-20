@@ -4,9 +4,10 @@ import { LanguageDropdown } from "./LanguageDropdown";
 
 interface Props {
   history: ExecutionRecord[];
+  clearHistory: () => void;
 }
 
-export const ExecutionTable = ({ history }: Props) => {
+export const ExecutionTable = ({ history, clearHistory }: Props) => {
   const [filterByLanguage, setFilterByLanguage] = useState("");
   const [filteredHistory, setFilteredHistory] = useState<ExecutionRecord[]>([]);
 
@@ -20,11 +21,9 @@ export const ExecutionTable = ({ history }: Props) => {
     }
   }, [filterByLanguage, history]);
 
-  //   console.log(s)
-
   return (
-    <div className="bg-white rounded-xl mb-5 p-4 w-full">
-      <div className="flex items-center gap-6 mb-10">
+    <div className="bg-white rounded-xl mb-5 p-4 w-full flex flex-col gap-5">
+      <div className="flex items-center gap-6">
         <h2 className="text-2xl inline font-bold text-black">
           Execution Summary
         </h2>
@@ -34,6 +33,18 @@ export const ExecutionTable = ({ history }: Props) => {
           setLanguage={setFilterByLanguage}
         />
       </div>
+      {filteredHistory.length > 0 ? (
+        <div>
+          <button
+            className="border font-bold text-red-500 px-3 py-2 rounded-xl cursor-pointer transform transition hover:-translate-y-1"
+            onClick={clearHistory}
+          >
+            Clear History
+          </button>
+        </div>
+      ) : (
+        ""
+      )}
       {filteredHistory.length > 0 ? (
         <table className="w-full table-auto border-collapse text-black">
           <thead>
